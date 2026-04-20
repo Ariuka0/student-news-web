@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="mn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Оюутны Мэдээний Платформ</title>
+    <meta name="theme-color" content="#1b1d2a" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="shortcut icon" href="./favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Manrope:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
+    <script src="./config.js" defer></script>
+    <script src="./script.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="decor decor-left"></div>
+      <div class="decor decor-right"></div>
+
+      <header class="hero">
+        <section class="hero-copy">
+          <p class="eyebrow">Сургуулийн Мэдээллийн Самбар</p>
+          <h1>Оюутны Мэдээний Платформ</h1>
+          <p class="hero-text">
+            Сургуулийн мэдээ, амжилт, арга хэмжээ, чухал мэдээллээ нэг дороос нийтэлж, login-тай,
+            database-д хадгалагддаг бодит систем шиг танилцуулах платформ.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#composer" class="primary-btn">Мэдээ Нийтлэх</a>
+            <a href="#authCard" class="ghost-btn">Нэвтрэх</a>
+          </div>
+
+          <div class="hero-stats">
+            <article>
+              <span id="postCount">0</span>
+              <p>Нийт мэдээ</p>
+            </article>
+            <article>
+              <span id="likeCount">0</span>
+              <p>Нийт лайк</p>
+            </article>
+            <article>
+              <span id="commentCount">0</span>
+              <p>Нийт сэтгэгдэл</p>
+            </article>
+          </div>
+        </section>
+
+        <aside class="status-card">
+          <p class="panel-label">Системийн Төлөв</p>
+
+          <div class="status-top-row">
+            <span id="connectionBadge" class="connection-badge" data-state="setup">
+              Тохиргоо хүлээгдэж байна
+            </span>
+            <button id="refreshButton" type="button" class="panel-link">Шинэчлэх</button>
+          </div>
+
+          <div id="featuredStory" class="featured-story">
+            <h2>Онцлох мэдээг уншиж байна...</h2>
+            <p>Өгөгдөл ачаалагдсаны дараа хамгийн их анхаарал татсан мэдээ энд гарна.</p>
+          </div>
+        </aside>
+      </header>
+
+      <main class="main-grid">
+        <aside class="sidebar-stack">
+          <section id="setupCard" class="setup-card">
+            <div class="section-head">
+              <p class="eyebrow">Алхам 1</p>
+              <h2>Supabase холболтоо хий</h2>
+            </div>
+
+            <p class="support-text">
+              Одоогоор app demo preview горимд байна. Доорх 2 файлыг бөглөчихвөл login, post,
+              like, comment, edit, delete бүгд database дээр ажиллана.
+            </p>
+
+            <div class="setup-list">
+              <div class="setup-item">
+                <strong>1.</strong>
+                <span>
+                  [config.js](C:/Users/ICTROOM2-14/Documents/Codex/2026-04-20-neg-project-bna/config.js)
+                  дотор Supabase `URL` болон `anon key`-гээ оруул.
+                </span>
+              </div>
+              <div class="setup-item">
+                <strong>2.</strong>
+                <span>
+                  [supabase-setup.sql](C:/Users/ICTROOM2-14/Documents/Codex/2026-04-20-neg-project-bna/supabase-setup.sql)
+                  файлын SQL-ийг Supabase SQL Editor дээр ажиллуул.
+                </span>
+              </div>
+              <div class="setup-item">
+                <strong>3.</strong>
+                <span>Email confirm-ийг demo-д зориулж унтраавал нэвтрэх flow илүү хурдан болно.</span>
+              </div>
+            </div>
+          </section>
+
+          <section id="authCard" class="auth-card">
+            <div class="section-head">
+              <p class="eyebrow">Алхам 2</p>
+              <h2 id="authTitle">Нэвтрэх</h2>
+            </div>
+
+            <div class="auth-tabs" role="tablist" aria-label="Нэвтрэх эсвэл бүртгүүлэх">
+              <button class="auth-tab active" data-mode="login" type="button" role="tab" aria-selected="true" tabindex="0">Нэвтрэх</button>
+              <button class="auth-tab" data-mode="signup" type="button" role="tab" aria-selected="false" tabindex="-1">Бүртгүүлэх</button>
+            </div>
+
+            <form id="authForm" class="auth-form">
+              <label id="displayNameField" class="hidden-field" hidden>
+                Нэр
+                <input id="displayNameInput" type="text" placeholder="Жишээ нь Энхжин" />
+              </label>
+
+              <label>
+                Имэйл
+                <input id="emailInput" type="email" placeholder="student@example.com" required />
+              </label>
+
+              <label>
+                Нууц үг
+                <input id="passwordInput" type="password" placeholder="Хамгийн багадаа 6 тэмдэгт" required />
+              </label>
+
+              <button id="authSubmitButton" class="primary-btn full-btn" type="submit">Нэвтрэх</button>
+            </form>
+
+            <p id="authHelpText" class="auth-help">
+              Бүртгэлтэй хэрэглэгч өөрийн постоо засах, устгах боломжтой.
+            </p>
+          </section>
+
+          <section id="userCard" class="user-card" hidden>
+            <div class="section-head">
+              <p class="eyebrow">Нэвтэрсэн Хэрэглэгч</p>
+              <h2 id="userGreeting">Сайн байна уу</h2>
+            </div>
+
+            <p id="userEmail" class="support-text"></p>
+
+            <div class="user-actions">
+              <button id="logoutButton" class="ghost-dark-btn" type="button">Гарах</button>
+              <button id="jumpComposerButton" class="secondary-btn" type="button">Шинэ Мэдээ</button>
+            </div>
+          </section>
+
+          <section id="composer" class="composer-card">
+            <div class="section-head">
+              <p id="composerEyebrow" class="eyebrow">Алхам 3</p>
+              <h2 id="composerTitle">Шинэ мэдээ нийтлэх</h2>
+            </div>
+
+            <p id="composerHint" class="support-text">
+              Нэвтэрсний дараа мэдээ нийтлэх, засах, устгах боломж нээгдэнэ.
+            </p>
+
+            <form id="postForm" class="post-form">
+              <label>
+                Мэдээний гарчиг
+                <input id="titleInput" name="title" type="text" placeholder="Роботын баг аварга боллоо" required />
+              </label>
+
+              <label>
+                Ангилал
+                <select id="categoryInput" name="category">
+                  <option value="Сургууль">Сургууль</option>
+                  <option value="Арга хэмжээ">Арга хэмжээ</option>
+                  <option value="Спорт">Спорт</option>
+                  <option value="Клуб">Клуб</option>
+                  <option value="Хичээл">Хичээл</option>
+                </select>
+              </label>
+
+              <label>
+                Мэдээний агуулга
+                <textarea
+                  id="contentInput"
+                  name="content"
+                  rows="6"
+                  placeholder="Юу болсон, яагаад чухал болохыг энд бичнэ үү..."
+                  required
+                ></textarea>
+              </label>
+
+              <div class="composer-actions">
+                <button id="postSubmitButton" class="primary-btn" type="submit">Мэдээ Нийтлэх</button>
+                <button id="cancelEditButton" class="secondary-btn" type="button" hidden>Засвар Цуцлах</button>
+              </div>
+            </form>
+          </section>
+        </aside>
+
+        <section class="feed-panel">
+          <div class="feed-toolbar">
+            <div>
+              <p class="eyebrow">Алхам 4</p>
+              <h2>Сүүлийн мэдээнүүд</h2>
+            </div>
+
+            <div class="toolbar-controls">
+              <select id="sortSelect" aria-label="Мэдээ эрэмбэлэх">
+                <option value="latest">Хамгийн сүүлд нэмэгдсэн</option>
+                <option value="liked">Хамгийн их лайктай</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="filterBar" class="filter-bar"></div>
+          <div id="statusMessage" class="status-message" data-tone="info" aria-live="polite"></div>
+          <div id="feed" class="feed-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <template id="postTemplate">
+      <article class="news-card">
+        <div class="card-top">
+          <div class="card-heading">
+            <p class="post-meta">
+              <span class="post-category"></span>
+              <span class="post-separator">|</span>
+              <span class="post-date"></span>
+            </p>
+            <h3 class="post-title"></h3>
+          </div>
+
+          <span class="author-badge"></span>
+        </div>
+
+        <p class="post-content"></p>
+
+        <div class="card-actions">
+          <button class="like-btn" type="button"></button>
+          <span class="comment-total"></span>
+
+          <div class="owner-actions" hidden>
+            <button class="edit-btn" type="button">Засах</button>
+            <button class="delete-btn" type="button">Устгах</button>
+          </div>
+        </div>
+
+        <div class="comments-block">
+          <div class="comments-list"></div>
+
+          <form class="comment-form">
+            <input class="comment-input" type="text" maxlength="220" />
+            <button class="comment-btn" type="submit">Сэтгэгдэл Үлдээх</button>
+          </form>
+
+          <p class="comment-note"></p>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>
